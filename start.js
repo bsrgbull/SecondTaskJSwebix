@@ -1,16 +1,12 @@
 `use strict`
 
-import * as webix from "@xbs/webix-pro";
- 
-const t = webix.uid(); // покажет сигнатуры и типы методов Webix
-
 function Item(name, quantity, price) {	//Конструктор для создания объектов товара
     this.name = name;
     this.quantity = quantity;
     this.price = price;
   }
 
-let arrStorage = [				//Массив с товарами на Складе
+let arrStorage = [				    //Массив с товарами на Складе
     new Item("Яблоки",    10,  80),		
     new Item("Апельсины", 50,  65),
     new Item("Груши",     20, 150),
@@ -20,21 +16,20 @@ let arrStorage = [				//Массив с товарами на Складе
 
 let arrBasket = [];		//Товары в Корзине
 
-let table1 = document.getElementById("HTMLtable1");
-let table2 = document.getElementById("HTMLtable2");
-let summIndicator = document.getElementById("totalPrice");
-
-updateTable(table1, arrStorage);	//Первичное заполнение Склада товарами
+updateTable($$("table1"), arrStorage);	//Первичное заполнение Склада товарами
 
 function updateTable(table, array) {			//Обновляет Склад или Корзину,
-    while(table.rows.length > 1) table.deleteRow(1);    //для этого полностью стирает все
-    for (let i = 0; i < array.length; i++) {		//строки в таблице, затем заполняет
-        let tr = document.createElement('tr');		//их товарами из массивов
-        tr.innerHTML = 					//На вход получает таблицу и соответствующий массив
-	`<td>${array[i].name}</td><td>${array[i].quantity}</td><td>${array[i].price}</td>
-        <input value="+" onclick="add('${array[i].name}')" type="button">
-        <input value="-" onclick="del('${array[i].name}')" type="button">`;
-        table.append(tr);
+    table.clearAll();                           //для этого полностью стирает все 
+    for (let i = 0; i < array.length; i++) {	//строки в таблице, затем заполняет
+        table.add(                              //их товарами из массивов
+            {                                   //На вход получает таблицу и соответствующий массив
+                name:`${array[i].name}`,
+                quantity:`${array[i].quantity}`,
+                price:`${array[i].price}`,
+                addButton:`<input value="+" onclick="add('${array[i].name}')" type="button">`,
+                delButton:`<input value="-" onclick="del('${array[i].name}')" type="button">`,
+            },
+        );
     }
 }
 
@@ -57,7 +52,7 @@ function moveItem(nameOfItem, arrayToDelete, arrayToAdd) {	//Перемещае�
             arrayToAdd.push(new Item(nameOfItem, 1, arrayToDelete[rowOfItemToDelete].price)); 	   
         } else {         		   
         arrayToAdd[rowOfItemToAdd].quantity++;
-	}
+	    }
 
         arrayToDelete[rowOfItemToDelete].quantity--; 
     
@@ -65,8 +60,8 @@ function moveItem(nameOfItem, arrayToDelete, arrayToAdd) {	//Перемещае�
             arrayToDelete.splice(rowOfItemToDelete,1);
         }
 
-        updateTable(table1,arrStorage);
-        updateTable(table2,arrBasket);
+        updateTable($$("table1"),arrStorage);
+        updateTable($$("table2"),arrBasket);
         updateSumm();
     }
 }
@@ -81,19 +76,6 @@ function updateSumm() {		//Обновляет сумму
 	for (let i = 0; i < arrBasket.length; i++) {
 		summ += arrBasket[i].quantity * arrBasket[i].price;	
 	}
-	summIndicator.innerHTML = `<h3>${summ}</h3>`;
+    $$("summIndicator").define("template", "Сумма: " + summ);
+    $$("summIndicator").refresh();
 }
-
-
-webix.ui({
-    rows:[
-        { view:"template", type:"header", template:"Задание№2" },
-        { view:"datatable", autoConfig:true, data:[
-            ["Яблоки",    10, 80, 0],
-            ["Апельсины", 50, 65, 0],
-            ["Груши",    20, 150, 0],
-            ["Помидоры", 25, 100, 0],
-            ["Огурцы",    16, 50, 0]] }
-        ]
-});
-
