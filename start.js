@@ -1,3 +1,9 @@
+`use strict`
+
+import * as webix from "@xbs/webix-pro";
+ 
+const t = webix.uid(); // покажет сигнатуры и типы методов Webix
+
 function Item(name, quantity, price) {	//Конструктор для создания объектов товара
     this.name = name;
     this.quantity = quantity;
@@ -77,3 +83,17 @@ function updateSumm() {		//Обновляет сумму
 	}
 	summIndicator.innerHTML = `<h3>${summ}</h3>`;
 }
+
+
+webix.ui({
+    rows:[
+        { view:"template", type:"header", template:"Задание№2" },
+        { view:"datatable", autoConfig:true, data:[
+            ["Яблоки",    10, 80, 0],
+            ["Апельсины", 50, 65, 0],
+            ["Груши",    20, 150, 0],
+            ["Помидоры", 25, 100, 0],
+            ["Огурцы",    16, 50, 0]] }
+        ]
+});
+
