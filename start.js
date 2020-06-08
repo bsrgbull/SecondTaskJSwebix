@@ -42,13 +42,14 @@ function del(nameOfItem) {
 }
 
 function moveItem(nameOfItem, arrayToDelete, arrayToAdd) {	//Перемещает товар со склада в корзину и наоборот
-								//Получает на вход Имя товара, массив из которого надо удалить товар, и массив в который надо добавить
+	//Получает на вход Имя товара, массив из которого надо удалить товар, и массив в который надо добавить
     let rowOfItemToDelete = whichRow(arrayToDelete, nameOfItem);
-    let rowOfItemToAdd = whichRow(arrayToAdd, nameOfItem);	//Вычисляем здесь положение товара в массивах(его индекс), ищем товар по его названию
-
+    let rowOfItemToAdd = whichRow(arrayToAdd, nameOfItem);	//Вычисляем здесь положение товара в массивах(его индекс),
+                                                            //ищем товар по его названию
     if (rowOfItemToDelete > -1 && arrayToDelete[rowOfItemToDelete].quantity >= 0) {	//Проверка на наличие товара на складе
 
-        if (rowOfItemToAdd == -1) {	//Если товара нет в массиве, добавляет туда новый, 1 шт.
+        if (rowOfItemToAdd == -1) {	    //Если в массиве, куда хотим добавить товар,
+                                        //товара нет, то добавляем туда новый, 1 шт.
             arrayToAdd.push(new Item(nameOfItem, 1, arrayToDelete[rowOfItemToDelete].price)); 	   
         } else {         		   
         arrayToAdd[rowOfItemToAdd].quantity++;
@@ -56,8 +57,8 @@ function moveItem(nameOfItem, arrayToDelete, arrayToAdd) {	//Перемещае�
 
         arrayToDelete[rowOfItemToDelete].quantity--; 
     
-        if (arrayToDelete[rowOfItemToDelete].quantity == 0) {	//Если после удаления 1 шт. товара его количество = 0, удаляем этот объект из массива
-            arrayToDelete.splice(rowOfItemToDelete,1);
+        if (arrayToDelete[rowOfItemToDelete].quantity == 0) {	//Если после удаления 1 шт. товара его количество = 0,
+            arrayToDelete.splice(rowOfItemToDelete,1);          //удаляем этот объект из массива
         }
 
         updateTable($$("table1"),arrStorage);
@@ -66,8 +67,8 @@ function moveItem(nameOfItem, arrayToDelete, arrayToAdd) {	//Перемещае�
     }
 }
 
-function whichRow(array, nameOfItem) {		//Вычисляет индекс товара в массиве по имени товара, если товар не найден возвращает -1
-    return array.findIndex(
+function whichRow(array, nameOfItem) {		//Вычисляет индекс товара в массиве по имени
+    return array.findIndex(                 //товара, если товар не найден возвращает -1
         (element, index, array) => {return element.name == nameOfItem});
 }
 

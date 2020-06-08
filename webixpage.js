@@ -4,7 +4,7 @@ webix.ui({
         { cols:[
             { rows:[
                 { type:"header", template:"Склад" },
-                { id: "table1", view:"datatable", autowidth:true,
+                { id: "table1", view:"datatable", autowidth:true, //Склад
                     columns:[
                         { id:"name", header:"Товар", sort:"string"},
                         { id:"quantity", header:"Количество", sort:"int"},
@@ -16,7 +16,7 @@ webix.ui({
             ]},
             { rows:[
                 { type:"header", template:"Корзина" },
-                { id: "table2", view:"datatable", autowidth:true,
+                { id: "table2", view:"datatable", autowidth:true, //Корзина
                     columns:[
                         { id:"name", header:"Товар", sort:"string"},
                         { id:"quantity", header:"Количество", sort:"int"},
