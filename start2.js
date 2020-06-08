@@ -24,7 +24,7 @@ function updateTable(table, array) {			//Обновляет Склад или К
     while(table.rows.length > 1) table.deleteRow(1);    //для этого полностью стирает все
     for (let i = 0; i < array.length; i++) {		//строки в таблице, затем заполняет
         let tr = document.createElement('tr');		//их товарами из массивов
-        tr.innerHTML = 					////На вход получает таблицу и соответствующий массив
+        tr.innerHTML = 					//На вход получает таблицу и соответствующий массив
 	`<td>${array[i].name}</td><td>${array[i].quantity}</td><td>${array[i].price}</td>
         <input value="+" onclick="add('${array[i].name}')" type="button">
         <input value="-" onclick="del('${array[i].name}')" type="button">`;
@@ -33,14 +33,14 @@ function updateTable(table, array) {			//Обновляет Склад или К
 }
 
 function add(nameOfItem) {
-    removeItem(nameOfItem, arrStorage, arrBasket);
+    moveItem(nameOfItem, arrStorage, arrBasket);
 }
 
 function del(nameOfItem) {
-    removeItem(nameOfItem, arrBasket, arrStorage);
+    moveItem(nameOfItem, arrBasket, arrStorage);
 }
 
-function removeItem(nameOfItem, arrayToDelete, arrayToAdd) {	//Перемещает товар со склада в корзину и наоборот
+function moveItem(nameOfItem, arrayToDelete, arrayToAdd) {	//Перемещает товар со склада в корзину и наоборот
 								//Получает на вход Имя товара, массив из которого надо удалить товар, и массив в который надо добавить
     let rowOfItemToDelete = whichRow(arrayToDelete, nameOfItem);
     let rowOfItemToAdd = whichRow(arrayToAdd, nameOfItem);	//Вычисляем здесь положение товара в массивах(его индекс), ищем товар по его названию
