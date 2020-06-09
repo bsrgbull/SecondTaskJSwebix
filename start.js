@@ -1,10 +1,13 @@
 `use strict`
 
+document.addEventListener("DOMContentLoaded", () => {
+    readywebix(); updateTable($$("table1"), arrStorage);});	//Первичное заполнение Склада товарами
+
 function Item(name, quantity, price) {	//Конструктор для создания объектов товара
     this.name = name;
     this.quantity = quantity;
     this.price = price;
-  }
+}
 
 let arrStorage = [				    //Массив с товарами на Складе
     new Item("Яблоки",    10,  80),		
@@ -12,11 +15,9 @@ let arrStorage = [				    //Массив с товарами на Складе
     new Item("Груши",     20, 150),
     new Item("Помидоры",  25, 100),
     new Item("Огурцы",    16,  50),
-  ];
+      ];
 
 let arrBasket = [];		//Товары в Корзине
-
-updateTable($$("table1"), arrStorage);	//Первичное заполнение Склада товарами
 
 function updateTable(table, array) {			//Обновляет Склад или Корзину,
     table.clearAll();                           //для этого полностью стирает все 
@@ -80,3 +81,41 @@ function updateSumm() {		//Обновляет сумму
     $$("summIndicator").define("template", "Сумма: " + summ);
     $$("summIndicator").refresh();
 }
+
+
+function readywebix() {
+    webix.ui({
+        rows:[
+            { type:"header", template:"Задание№2" },
+            { cols:[
+                { rows:[
+                    { type:"header", template:"Склад" },
+                    { id: "table1", view:"datatable", autowidth:true, //Склад
+                        columns:[
+                            { id:"name", header:"Товар", sort:"string"},
+                            { id:"quantity", header:"Количество", sort:"int"},
+                            { id:"price", header:"Цена", sort:"int"},
+                            { id:"addButton", header:"", maxWidth: 40},
+                            { id:"delButton", header:"", maxWidth: 40}
+                        ],
+                    },
+                ]},
+                { rows:[
+                    { type:"header", template:"Корзина" },
+                    { id: "table2", view:"datatable", autowidth:true, //Корзина
+                        columns:[
+                            { id:"name", header:"Товар", sort:"string"},
+                            { id:"quantity", header:"Количество", sort:"int"},
+                            { id:"price", header:"Цена", sort:"int"},
+                            { id:"addButton", header:"", maxWidth: 40},
+                            { id:"delButton", header:"", maxWidth: 40}
+                        ],
+                    },
+                    { id: "summIndicator", type:"header", template:"Сумма:" },
+                ]},
+            ]},
+        ],
+        
+    });
+};
+    
